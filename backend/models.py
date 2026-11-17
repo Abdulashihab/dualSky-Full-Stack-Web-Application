@@ -1,37 +1,50 @@
 """SQLAlchemy models for the DualSky backend.
 
-Defines the User and Package tables, sharing the declarative Base from
-database.py.
+Defines the Subscriber, Package, and Channel tables matching dualsky_data.json,
+sharing the declarative Base from database.py.
 """
 
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, Text, Date
 
 from database import Base
 
 
-class User(Base):
-    __tablename__ = "users"
+class Subscriber(Base):
+    __tablename__ = "subscribers"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
     subscriber_id = Column(String, unique=True, index=True, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=False)
-    password = Column(String, nullable=False)
-    balance = Column(Float, default=0.0, nullable=False)
-    active_package = Column(Integer, ForeignKey("packages.id"), nullable=True)
-
-    package = relationship("Package", back_populates="users")
+    rmn = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    kind = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    balance = Column(Float, nullable=False)
+    monthly_charge = Column(Float, nullable=False)
+    due_date = Column(Date, nullable=False)
+    packs = Column(Text, nullable=False)
+    work_order = Column(Text, nullable=True)
+    address = Column(String, nullable=False)
 
 
 class Package(Base):
     __tablename__ = "packages"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    pack_id = Column(String, unique=True, index=True, nullable=False)
     language = Column(String, nullable=False)
+    pack_name = Column(String, nullable=False)
+    category = Column(String, nullable=False)
     price = Column(Float, nullable=False)
-    channel_count = Column(Integer, nullable=False)
-    channels_summary = Column(String, nullable=True)
+    channel_nos = Column(Text, nullable=False)
 
-    users = relationship("User", back_populates="package")
+
+class Channel(Base):
+    __tablename__ = "channels"
+
+    id = Column(Integer, primary_key=True, index=True)
+    channel_no = Column(String, unique=True, index=True, nullable=False)
+    channel_name = Column(String, nullable=False)
+    language = Column(String, nullable=False)
+    resolution = Column(String, nullable=False)
+    genre = Column(String, nullable=False)
+    la_carte_price = Column(Float, nullable=False)
