@@ -2,12 +2,16 @@
 name = "backend"
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
 authors = [
     { name = "Abdula Shihab b", email = "abdulshihab6493@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi>=0.165.0",
+    "pydantic>=2.14.3",
+    "sqlalchemy>=2.1.9",
+    "uvicorn>=0.54.0",
+]
 
 [project.scripts]
 backend = "backend:main"
