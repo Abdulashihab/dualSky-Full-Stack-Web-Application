@@ -2,10 +2,9 @@ import { useState } from 'react';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
-export default function Navbar() {
+export default function Navbar({ user, onLogout }) {
   const [openModal, setOpenModal] = useState(null);
   const [authTab, setAuthTab] = useState('login');
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState({});
 
   const setLoadingState = (key, val) =>
@@ -93,7 +92,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    setUser(null);
+    onLogout();
   };
 
   return (

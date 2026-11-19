@@ -98,6 +98,11 @@ class RechargeRequest(BaseModel):
     amount: float
 
 
+class ChatRequest(BaseModel):
+    message: str
+    subscriber_id: str | None = None
+
+
 # --- Endpoints ---
 
 @app.post("/login")
@@ -174,3 +179,12 @@ def recharge(req: RechargeRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(sub)
     return subscriber_to_dict(sub)
+
+
+@app.post("/chat")
+def chat(req: ChatRequest):
+    # TODO: Connect Dualsky Agentic RAG here
+    reply = f"Thanks for your message: '{req.message}'. Our support team will get back to you shortly."
+    if req.subscriber_id:
+        reply = f"Hi subscriber {req.subscriber_id}! " + reply
+    return {"reply": reply}
