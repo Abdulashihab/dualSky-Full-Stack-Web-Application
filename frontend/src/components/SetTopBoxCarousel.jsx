@@ -104,25 +104,18 @@ export default function SetTopBoxCarousel() {
 
   return (
     <section className="py-12 bg-teal-50">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="w-full px-6">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-teal-900 mb-2">Set-Top Boxes</h2>
           <p className="text-teal-600 text-sm">Choose your viewing experience</p>
         </div>
 
-        <div className="relative w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8">
-          <div
-            className="flex items-stretch gap-6 snap-start px-2"
-            style={{
-              scrollBehavior: 'smooth',
-              touchAction: 'pan-x',
-            }}
-          >
-            {BOXES.map((box) => (
-              <div
-                key={box.id}
-                className="flex-shrink-0 w-[280px] flex flex-col justify-between h-auto bg-white rounded-2xl border border-teal-100 shadow-sm p-6 snap-start"
-              >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-4">
+          {BOXES.map((box) => (
+            <div
+              key={box.id}
+              className="flex flex-col h-full bg-white rounded-2xl border border-teal-100 shadow-sm p-6 hover:shadow-lg transition-shadow"
+            >
                 <div className="space-y-5">
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-teal-700 mb-4">
                     {box.badge}
@@ -157,33 +150,6 @@ export default function SetTopBoxCarousel() {
                 </button>
               </div>
             ))}
-          </div>
-
-          <button
-            onClick={() => {
-              const container = document.querySelector('.overflow-x-auto');
-              if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
-            }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-teal-700 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-teal-800 transition opacity-60"
-            aria-label="Previous"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            onClick={() => {
-              const container = document.querySelector('.overflow-x-auto');
-              if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
-            }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-teal-700 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-teal-800 transition opacity-60"
-            aria-label="Next"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
         </div>
 
         {/* Booking Confirmation Modal */}

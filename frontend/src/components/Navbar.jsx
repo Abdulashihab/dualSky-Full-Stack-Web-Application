@@ -37,7 +37,6 @@ export default function Navbar({ user, onLogin, onLogout }) {
       setLoadingState('login', false);
     }
   };
-
   const handleSignup = async (e) => {
     e.preventDefault();
     const payload = {
@@ -90,151 +89,85 @@ export default function Navbar({ user, onLogin, onLogout }) {
       setLoadingState('recharge', false);
     }
   };
-
   const handleLogout = () => {
     onLogout();
   };
-
   return (
     <>
-      <nav className="bg-teal-700 text-white px-6 py-4 flex items-center justify-between shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-teal-700 font-bold text-xl shadow-sm">
-            D
-          </div>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight">dualSky</h1>
-            <p className="text-teal-100 text-xs uppercase tracking-wider">
-             
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          {user ? (
-            <div className="flex items-center gap-4 bg-teal-50 border border-teal-200/60 px-4 py-2 rounded-xl text-teal-900">
-              <div className="hidden sm:flex flex-col">
-                <p className="text-sm font-semibold">{user.name}</p>
-                <p className="text-xs text-teal-600">{user.subscriber_id}</p>
-                <p className="text-xs text-teal-600">
-                  Balance: ₹{formatMoney(user.balance)}
-                </p>
-                <p className="text-xs text-teal-600">
-                  Due: {user.due_date || '—'}
-                </p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="bg-teal-700 hover:bg-teal-800 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm"
-              >
-                Logout
-              </button>
+      <nav className="bg-white sticky top-0 z-40 border-b border-teal-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[#00796B] rounded flex items-center justify-center text-white font-bold text-lg shadow-sm">
+              D
             </div>
-          ) : (
-            <>
-              <button
-                onClick={() => setOpenModal('recharge')}
-                className="bg-teal-700 hover:bg-teal-800 text-white px-5 py-2 rounded-lg font-medium transition shadow-sm"
-              >
-                Recharge
-              </button>
-              <button
-                onClick={() => {
-                  setAuthTab('login');
-                  setOpenModal('login-signup');
-                }}
-                className="bg-white text-teal-700 px-5 py-2 rounded-lg font-medium border border-teal-200 hover:bg-teal-50 transition shadow-sm"
-              >
-                Login / Sign Up
-              </button>
-            </>
-          )}
+            <h1 className="text-xl font-bold text-[#00796B] tracking-tight">Dualsky</h1>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <a href="#settopboxes" onClick={() => setOpenModal(null)} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">New DTH Connection</a>
+            <button onClick={() => setOpenModal('recharge')} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Quick Recharge</button>
+            <a href="#packages" onClick={() => setOpenModal(null)} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Explore DTH Packs</a>
+            <button onClick={() => {}} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Help</button>
+          </div>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-3 bg-teal-50 border border-teal-200/50 px-3 py-1.5 rounded-full text-teal-900">
+                <div className="hidden sm:flex flex-col items-start">
+                  <p className="text-sm font-semibold">{user.subscriber_id}</p>
+                  <p className="text-xs text-teal-600">Balance: ₹{formatMoney(user.balance)}</p>
+                </div>
+                <button onClick={handleLogout} className="bg-[#00796B] hover:bg-[#004D40] text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">Logout</button>
+              </div>
+            ) : (
+              <button onClick={() => { setAuthTab('login'); setOpenModal('login-signup'); }} className="bg-[#00796B] hover:bg-[#004D40] text-white px-5 py-2 rounded-lg font-medium transition shadow-sm">Login</button>
+            )}
+          </div>
         </div>
       </nav>
-
       {openModal === 'login-signup' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            onClick={() => setOpenModal(null)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-          />
+          <div onClick={() => setOpenModal(null)} className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
           <div className="bg-white w-full max-w-md rounded-2xl shadow-xl relative">
-            <button
-              onClick={() => setOpenModal(null)}
-              className="absolute top-4 right-4 text-teal-600 hover:text-teal-800"
-            >
-              &times;
-            </button>
+            <button onClick={() => setOpenModal(null)} className="absolute top-4 right-4 text-teal-600 hover:text-teal-800">&times;</button>
             <div className="px-6 pt-6 pb-4">
-              <h2 className="text-xl font-bold text-teal-900 mb-1">
-                Welcome back
-              </h2>
-              <p className="text-sm text-teal-600 mb-6">
-                Sign in to your Dualsky account
-              </p>
+              <h2 className="text-xl font-bold text-teal-900 mb-1">Welcome back</h2>
+              <p className="text-sm text-teal-600 mb-6">Sign in to your Dualsky account</p>
+              <div className="flex border-b border-teal-100 mb-6">
+                <button
+                  onClick={() => setAuthTab('login')}
+                  className={`flex-1 py-3 text-sm font-medium ${authTab === 'login' ? 'text-teal-700 border-b-2 border-teal-700' : 'text-teal-500 hover:text-teal-700'}`}
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => setAuthTab('signup')}
+                  className={`flex-1 py-3 text-sm font-medium ${authTab === 'signup' ? 'text-teal-700 border-b-2 border-teal-700' : 'text-teal-500 hover:text-teal-700'}`}
+                >
+                  Sign Up
+                </button>
+              </div>
               {authTab === 'login' ? (
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-teal-800 mb-1">
-                      Subscriber ID or RMN
-                    </label>
-                    <input
-                      name="subscriber_id_or_rmn"
-                      type="text"
-                      required
-                      className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                      placeholder="Enter subscriber ID or RMN"
-                    />
+                    <label className="block text-sm font-medium text-teal-800 mb-1">Subscriber ID or RMN</label>
+                    <input name="subscriber_id_or_rmn" type="text" required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" placeholder="Enter subscriber ID or RMN" />
                   </div>
-                  <button
-                    type="submit"
-                    disabled={loading.login}
-                    className="w-full bg-teal-700 hover:bg-teal-800 text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70"
-                  >
-                    {loading.login ? 'Signing in...' : 'Login'}
-                  </button>
+                  <button type="submit" disabled={loading.login} className="w-full bg-[#00796B] hover:bg-[#004D40] text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70">{loading.login ? 'Signing in...' : 'Login'}</button>
                 </form>
               ) : (
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-teal-800 mb-1">
-                      Full Name
-                    </label>
-                    <input
-                      name="name"
-                      type="text"
-                      required
-                      className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                    />
+                    <label className="block text-sm font-medium text-teal-800 mb-1">Full Name</label>
+                    <input name="name" type="text" required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-teal-800 mb-1">
-                      RMN
-                    </label>
-                    <input
-                      name="rmn"
-                      type="text"
-                      required
-                      className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                    />
+                    <label className="block text-sm font-medium text-teal-800 mb-1">RMN</label>
+                    <input name="rmn" type="text" required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-teal-800 mb-1">
-                      Address
-                    </label>
-                    <textarea
-                      name="address"
-                      rows={2}
-                      required
-                      className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                    />
+                    <label className="block text-sm font-medium text-teal-800 mb-1">Address</label>
+                    <textarea name="address" rows={2} required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                   </div>
-                  <button
-                    type="submit"
-                    disabled={loading.signup}
-                    className="w-full bg-teal-700 hover:bg-teal-800 text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70"
-                  >
-                    {loading.signup ? 'Creating account...' : 'Create Account'}
-                  </button>
+                  <button type="submit" disabled={loading.signup} className="w-full bg-[#00796B] hover:bg-[#004D40] text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70">{loading.signup ? 'Creating account...' : 'Create Account'}</button>
                 </form>
               )}
             </div>
@@ -243,53 +176,22 @@ export default function Navbar({ user, onLogin, onLogout }) {
       )}
       {openModal === 'recharge' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            onClick={() => setOpenModal(null)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-          />
+          <div onClick={() => setOpenModal(null)} className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
           <div className="bg-white w-full max-w-md rounded-2xl shadow-xl relative">
-            <button
-              onClick={() => setOpenModal(null)}
-              className="absolute top-4 right-4 text-teal-600 hover:text-teal-800"
-            >
-              &times;
-            </button>
+            <button onClick={() => setOpenModal(null)} className="absolute top-4 right-4 text-teal-600 hover:text-teal-800">&times;</button>
             <div className="px-6 pt-6 pb-6">
               <h2 className="text-xl font-bold text-teal-900 mb-1">Recharge</h2>
-              <p className="text-sm text-teal-600 mb-6">
-                Top up your account balance
-              </p>
+              <p className="text-sm text-teal-600 mb-6">Top up your account balance</p>
               <form onSubmit={handleRecharge} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-teal-800 mb-1">
-                    Subscriber ID
-                  </label>
-                  <input
-                    name="subscriber_id"
-                    type="text"
-                    required
-                    className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                  />
+                  <label className="block text-sm font-medium text-teal-800 mb-1">Subscriber ID</label>
+                  <input name="subscriber_id" type="text" required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-teal-800 mb-1">
-                    Amount (₹)
-                  </label>
-                  <input
-                    name="amount"
-                    type="number"
-                    step="0.01"
-                    required
-                    className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
-                  />
+                  <label className="block text-sm font-medium text-teal-800 mb-1">Amount (₹)</label>
+                  <input name="amount" type="number" step="0.01" required className="w-full px-3 py-2 border border-teal-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading.recharge}
-                  className="w-full bg-teal-700 hover:bg-teal-800 text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70"
-                >
-                  {loading.recharge ? 'Processing...' : 'Recharge Now'}
-                </button>
+                <button type="submit" disabled={loading.recharge} className="w-full bg-[#00796B] hover:bg-[#004D40] text-white py-2.5 rounded-lg font-medium transition disabled:opacity-70">{loading.recharge ? 'Processing...' : 'Recharge Now'}</button>
               </form>
             </div>
           </div>
