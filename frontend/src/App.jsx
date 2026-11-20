@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-teal-50">
-      <Navbar user={user} onLogout={() => setUser(null)} />
+      <Navbar user={user} onLogin={setUser} onLogout={() => setUser(null)} />
       <SetTopBoxCarousel />
       <PackagesSection />
       <SupportChatWidget subscriberId={user?.subscriber_id || null} />

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
-export default function Navbar({ user, onLogout }) {
+export default function Navbar({ user, onLogin, onLogout }) {
   const [openModal, setOpenModal] = useState(null);
   const [authTab, setAuthTab] = useState('login');
   const [loading, setLoading] = useState({});
@@ -25,7 +25,7 @@ export default function Navbar({ user, onLogout }) {
       if (!res.ok) throw new Error('Login failed');
       const data = await res.json();
       if (data && data.length > 0) {
-        setUser(data[0]);
+        onLogin(data[0]);
         setOpenModal(null);
         e.target.reset();
       } else {
@@ -54,7 +54,7 @@ export default function Navbar({ user, onLogout }) {
       });
       if (!res.ok) throw new Error('Signup failed');
       const data = await res.json();
-      setUser(data);
+      onLogin(data);
       setOpenModal(null);
       e.target.reset();
     } catch (err) {
@@ -80,7 +80,7 @@ export default function Navbar({ user, onLogout }) {
       if (!res.ok) throw new Error('Recharge failed');
       const data = await res.json();
       if (user && user.subscriber_id === payload.subscriber_id) {
-        setUser(data);
+        onLogin(data);
       }
       e.target.reset();
       alert('Recharge successful!');
@@ -103,9 +103,9 @@ export default function Navbar({ user, onLogout }) {
             D
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Dualsky</h1>
+            <h1 className="text-xl font-bold tracking-tight">dualSky</h1>
             <p className="text-teal-100 text-xs uppercase tracking-wider">
-              Sky Without Limits
+             
             </p>
           </div>
         </div>
