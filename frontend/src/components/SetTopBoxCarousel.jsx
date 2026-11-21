@@ -78,7 +78,7 @@ const BOXES = [
         <rect x="8" y="68" width="104" height="10" rx="4" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
       </svg>
     ),
-    features: ['Independent Channels on 2nd TV', 'Lower Monthly Multi-TV Fee'],
+    features: ['Independent Channels on 2nd TV', 'Lower Monthly Multi-TV Fee', 'Single Dish Antenna Setup'],
   },
 ];
 export default function SetTopBoxCarousel() {
@@ -103,7 +103,7 @@ export default function SetTopBoxCarousel() {
   };
 
   return (
-    <section className="py-12 bg-teal-50">
+    <section id="set-top-boxes" className="py-12 bg-teal-50">
       <div className="w-full px-6">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-teal-900 mb-2">Set-Top Boxes</h2>
@@ -116,7 +116,7 @@ export default function SetTopBoxCarousel() {
               key={box.id}
               className="flex flex-col h-full bg-white rounded-2xl border border-teal-100 shadow-sm p-6 hover:shadow-lg transition-shadow"
             >
-                <div className="space-y-5">
+                <div className="flex flex-col flex-1">
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-teal-700 mb-4">
                     {box.badge}
                   </span>
@@ -125,23 +125,23 @@ export default function SetTopBoxCarousel() {
                   </div>
                   <h3 className="text-xl font-bold text-teal-900 mb-1">{box.name}</h3>
                   <div className="text-teal-700 font-bold text-lg mb-4">{box.price}</div>
-                  <div className="space-y-2">
+                  <ul className="flex-1 space-y-2.5 mb-6">
                     {box.features.map((feat, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-teal-800">
+                      <li key={i} className="flex items-center gap-2 text-sm text-teal-800">
                         <svg className="w-4 h-4 text-teal-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         {feat}
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     openBooking(box);
                   }}
-                  className="w-full bg-teal-700 hover:bg-teal-800 text-white py-3 rounded-xl font-medium transition shadow-sm flex items-center justify-center gap-2"
+                  className="w-full bg-teal-700 hover:bg-teal-800 text-white py-3 px-5 rounded-xl font-semibold tracking-wide shadow-sm mt-auto flex items-center justify-center gap-2"
                 >
                   Get Connection
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

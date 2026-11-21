@@ -2,15 +2,13 @@ import { useState } from 'react';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
-export default function Navbar({ user, onLogin, onLogout }) {
+export default function Navbar({ user, onLogin, onLogout, onOpenSupport, onMyAccount, activeView }) {
   const [openModal, setOpenModal] = useState(null);
   const [authTab, setAuthTab] = useState('login');
   const [loading, setLoading] = useState({});
 
   const setLoadingState = (key, val) =>
     setLoading((prev) => ({ ...prev, [key]: val }));
-
-  const formatMoney = (v) => Number(v || 0).toFixed(2);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -92,6 +90,13 @@ export default function Navbar({ user, onLogin, onLogout }) {
   const handleLogout = () => {
     onLogout();
   };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   return (
     <>
       <nav className="bg-white sticky top-0 z-40 border-b border-teal-100 shadow-sm">
@@ -103,19 +108,46 @@ export default function Navbar({ user, onLogin, onLogout }) {
             <h1 className="text-xl font-bold text-[#00796B] tracking-tight">Dualsky</h1>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#settopboxes" onClick={() => setOpenModal(null)} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">New DTH Connection</a>
+            <button type="button" onClick={(e) => { e.preventDefault(); scrollToSection('set-top-boxes'); }} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">New DTH Connection</button>
             <button onClick={() => setOpenModal('recharge')} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Quick Recharge</button>
-            <a href="#packages" onClick={() => setOpenModal(null)} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Explore DTH Packs</a>
-            <button onClick={() => {}} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Help</button>
+            <button type="button" onClick={(e) => { e.preventDefault(); scrollToSection('packages'); }} className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition">Explore DTH Packs</button>
+            <div className="relative">
+              <button
+                onClick={() => setOpenModal(openModal === 'help' ? null : 'help')}
+                className="text-teal-700 font-medium text-sm hover:text-[#004D40] transition rounded-lg py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                aria-haspopup="true"
+                aria-expanded={openModal === 'help'}
+              >
+                Help
+              </button>
+              {openModal === 'help' && (
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-teal-100 p-4 space-y-2">
+                  <div className="text-sm text-teal-700 mb-2">Customer Care</div>
+                  <div className="flex items-center gap-2 text-teal-600 text-sm mb-3">
+                    <span>📞 1800-123-4567</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-teal-600 text-sm mb-3">
+                    <span>✉️ support@dualsky.in</span>
+                  </div>
+                  <button onClick={() => { setOpenModal(null); onOpenSupport?.(); }} className="w-full bg-[#00796B] hover:bg-[#004D40] text-white py-2 rounded-lg font-medium transition shadow-sm">
+                    Open Dualsky AI Support
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {user ? (
-              <div className="flex items-center gap-3 bg-teal-50 border border-teal-200/50 px-3 py-1.5 rounded-full text-teal-900">
-                <div className="hidden sm:flex flex-col items-start">
-                  <p className="text-sm font-semibold">{user.subscriber_id}</p>
-                  <p className="text-xs text-teal-600">Balance: ₹{formatMoney(user.balance)}</p>
-                </div>
-                <button onClick={handleLogout} className="bg-[#00796B] hover:bg-[#004D40] text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">Logout</button>
+              <div className="flex items-center gap-2">
+                {(!activeView || activeView === 'home') && (
+                  <button
+                    onClick={() => onMyAccount?.()}
+                    className="bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                  >
+                    My Account
+                  </button>
+                )}
+                <button onClick={handleLogout} className="bg-[#00796B] hover:bg-[#004D40] text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">Logout</button>
               </div>
             ) : (
               <button onClick={() => { setAuthTab('login'); setOpenModal('login-signup'); }} className="bg-[#00796B] hover:bg-[#004D40] text-white px-5 py-2 rounded-lg font-medium transition shadow-sm">Login</button>

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const HERO_BG = 'linear-gradient(135deg, #00796B 0%, #004D40 100%)';
 
 const features = [
@@ -14,11 +12,6 @@ const pricingPlans = [
 ];
 
 export default function HeroBanner() {
-  const [activeSlide, setActiveSlide] = useState(0);
-
-  const nextSlide = () => setActiveSlide((prev) => (prev + 1) % 3);
-  const prevSlide = () => setActiveSlide((prev) => (prev - 1 + 3) % 3);
-
   return (
     <section className="relative w-full" style={{ background: HERO_BG }}>
       <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15), transparent 70%)' }} />
@@ -90,48 +83,8 @@ export default function HeroBanner() {
               ))}
             </div>
 
-            <button
-              onClick={() => {}}
-              className="bg-white text-[#00796B] px-8 py-3 rounded-xl font-bold text-lg hover:bg-teal-50 transition shadow-lg flex items-center gap-2"
-            >
-              Subscribe Now
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
 
-            <div className="flex justify-center gap-2 mt-2">
-              {[0, 1, 2].map((i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  className={`w-2 h-2 rounded-full transition ${
-                    activeSlide === i
-                      ? 'bg-white'
-                      : 'bg-white/30 hover:bg-white'
-                  }`}
-                />
-              ))}
-            </div>
 
-            <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={prevSlide}
-                className="bg-white/10 hover:bg-white/20 text-white w-8 h-8 rounded-lg flex items-center justify-center transition"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={nextSlide}
-                className="bg-white/10 hover:bg-white/20 text-white w-8 h-8 rounded-lg flex items-center justify-center transition"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       </div>

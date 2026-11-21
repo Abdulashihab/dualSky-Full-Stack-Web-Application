@@ -8,8 +8,7 @@ const QUICK_QUESTIONS = [
   'No signal error',
 ];
 
-export default function SupportChatWidget({ subscriberId }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SupportChatWidget({ subscriberId, isOpen, onToggle }) {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -50,7 +49,7 @@ export default function SupportChatWidget({ subscriberId }) {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => onToggle(!isOpen)}
         className="bg-teal-700 hover:bg-teal-800 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition"
         aria-label="Toggle Dualsky AI Support"
       >
@@ -78,7 +77,7 @@ export default function SupportChatWidget({ subscriberId }) {
               </div>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => onToggle(false)}
               className="text-teal-100 hover:text-white"
             >
               &times;
